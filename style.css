@@ -1,101 +1,115 @@
-/* General Reset */
+/* Import Google Font - Roboto */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+/* Set base font size for document */
+html {
+    font-size: 16px;
+}
+
+/* Reset default browser styles */
 *,
 *::before,
 *::after {
     box-sizing: border-box;
-    -webkit-font-smoothing: antialiased;
-    font-family: SourceSansPro, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
-/* Container Style */
-.container {
-    position: relative;
-    width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
-    margin-right: auto;
-    margin-left: auto;
-}
-
-/* Responsive Column Sizes */
-@media (min-width: 576px) {
-    .col-sm {
-        flex: 0 0 100%;
-        max-width: 100%;
-    }
-}
-
-@media (min-width: 768px) {
-    .col-md {
-        flex: 0 0 66.6667%;
-        max-width: 66.6667%;
-    }
-}
-
-@media (min-width: 992px) {
-    .col-lg {
-        flex: 0 0 58.3333%;
-        max-width: 58.3333%;
-        padding-right: 1rem;
-        padding-left: 1rem;
-    }
-}
-
-@media (min-width: 1328px) {
-    .col-xl {
-        flex: 0 0 58.3333%;
-        max-width: 58.3333%;
-        margin-left: 8.33333%;
-    }
-}
-
-/* Element Specific Styles */
-.element {
-    background-color: rgb(255, 255, 255);
-    border-radius: 4px;
-    padding: 0px 1.5rem 2.5rem;
-    overflow: auto;
-    min-height: 0px;
-    transition: flex-basis 0.5s cubic-bezier(0.7, 0, 0.3, 1), padding 0.5s cubic-bezier(0.7, 0, 0.3, 1);
-}
-
-/* Typography */
-.paragraph-text,
-body,
-p {
+/* Apply gradient background to the body */
+body {
+    font-family: 'Roboto', sans-serif;
     font-weight: 400;
-    font-size: 1rem;
-    line-height: 1.5rem;
-    color: #333; /* Darker text color for better readability */
-    letter-spacing: normal;
-    text-transform: none;
+    line-height: 1.6;
+    color: #212529;
+    background-image: linear-gradient(to bottom right, #e6e9f0 0%, #99bff0 50%, #4c5b69 100%);
+    background-attachment: fixed;
+    height: 100vh; /* Full viewport height */
+    width: 100%; /* Full viewport width */
+    overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
+/* Style for the main heading */
+.page-header {
+    padding: 2rem 0;
+    text-align: center;
+    background: none;
+}
+
+.page-header h1 {
+    font-size: 2.25rem; /* 36px */
+    font-weight: 700;
+    color: #004165; /* Dark blue for the heading */
+    margin-bottom: 1rem;
+}
+
+/* Style for form elements */
+input[type="text"],
+input[type="email"],
+input[type="date"],
+select,
+textarea {
+    font-size: 1rem;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    width: 100%; /* Full width */
+}
+
+/* Style for buttons */
+button {
+    font-size: 1rem;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+}
+
+/* Primary button styling */
 .btn-primary {
-    background-color: #28a745; /* Green */
-    border-color: #28a745; /* Green */
-    color: white;
+    background-color: #007bff; /* Blue */
+    color: #ffffff; /* White text */
 }
 
 .btn-primary:hover {
-    background-color: #218838; /* Darker green */
-    border-color: #1e7e34; /* Darker green */
-}
-/* Loader Style */
-.loader {
-    border: 5px solid #f3f3f3; /* Light grey */
-    border-top: 5px solid #3498db; /* Blue, can change to another color */
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin: -20px 0 0 -20px; /* Centering the loader */
-    animation: spin 2s linear infinite;
+    background-color: #0056b3; /* Darker blue on hover */
 }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+/* Secondary button styling */
+.btn-secondary {
+    background-color: #6c757d; /* Grey */
+    color: #ffffff; /* White text */
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268; /* Darker grey on hover */
+}
+
+/* Ensure the content is centered and has padding */
+.container {
+    max-width: 1200px; /* Max width for the content */
+    margin: 0 auto; /* Center the container */
+    padding: 0 1rem; /* Padding on the sides */
+}
+
+/* Link styling */
+a {
+    color: #007bff; /* Blue links */
+    text-decoration: none; /* No underline */
+}
+
+a:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+
+/* Media query for mobile responsiveness */
+@media (max-width: 768px) {
+    .page-header h1 {
+        font-size: 1.75rem; /* Smaller heading on mobile */
+    }
+
+    .container {
+        padding: 0 0.5rem; /* Less padding on the sides on mobile */
+    }
 }
