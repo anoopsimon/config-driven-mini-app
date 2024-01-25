@@ -1,0 +1,18 @@
+[
+    {
+        "pageName": "Page 1",
+        "elements": [
+            {"name": "textField1", "type": "text", "validation": "required", "customJs": "custom1.js"},
+            {"name": "textField2", "type": "text", "validation": "required", "customJs": "custom1.js"}
+        ],
+        "navigation": {"next": "Next"}
+    },
+    {
+        "pageName": "Page 2",
+        "elements": [
+            {"name": "textField3", "type": "text", "validation": "required", "customJs": "custom1.js"},
+            {"name": "textField4", "type": "text", "validation": "required", "customJs": "custom1.js"}
+        ],
+        "navigation": {"next": "Next"}
+    }
+]
