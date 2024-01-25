@@ -1,18 +1,91 @@
 [
     {
-        "pageName": "Page 1",
+        "pageName": "Personal Information",
         "elements": [
-            {"name": "textField1", "type": "text", "validation": "required", "customJs": "custom1.js"},
-            {"name": "textField2", "type": "text", "validation": "required", "customJs": "custom1.js"}
+            {
+                "name": "fullName",
+                "type": "text",
+                "validation": "required",
+                "question": "Full Name:",
+                "customJs": ""
+            },
+            {
+                "name": "dateOfBirth",
+                "type": "text",
+                "validation": "required",
+                "question": "Date of Birth (MM/DD/YYYY):",
+                "customJs": ""
+            },
+            {
+                "name": "ssn",
+                "type": "text",
+                "validation": "required",
+                "question": "Social Security Number:",
+                "customJs": ""
+            },
+            {
+                "name": "annualIncome",
+                "type": "text",
+                "validation": "required",
+                "question": "Annual Income ($):",
+                "customJs": ""
+            },
+            {
+                "name": "employmentStatus",
+                "type": "dropdown",
+                "question": "Employment Status:",
+                "options": ["Employed", "Self-Employed", "Unemployed", "Student", "Retired"]
+            }
         ],
         "navigation": {"next": "Next"}
     },
     {
-        "pageName": "Page 2",
+        "pageName": "Contact Information",
         "elements": [
-            {"name": "textField3", "type": "text", "validation": "required", "customJs": "custom1.js"},
-            {"name": "textField4", "type": "text", "validation": "required", "customJs": "custom1.js"}
+            {
+                "name": "emailAddress",
+                "type": "text",
+                "validation": "required",
+                "question": "Email Address:",
+                "customJs": ""
+            },
+            {
+                "name": "phoneNumber",
+                "type": "text",
+                "validation": "required",
+                "question": "Phone Number:",
+                "customJs": ""
+            },
+            {
+                "name": "residentialAddress",
+                "type": "text",
+                "validation": "required",
+                "question": "Residential Address:",
+                "customJs": ""
+            },
+            {
+                "name": "mailingAddressSame",
+                "type": "checkbox",
+                "label": "Mailing address is same as residential address"
+            }
         ],
-        "navigation": {"next": "Next"}
+        "navigation": {"previous": "Previous", "next": "Next"}
+    },
+    {
+        "pageName": "Additional Information",
+        "elements": [
+            {
+                "name": "creditCardType",
+                "type": "dropdown",
+                "question": "Desired Credit Card Type:",
+                "options": ["Standard", "Gold", "Platinum"]
+            },
+            {
+                "name": "termsAgreement",
+                "type": "checkbox",
+                "label": "I agree to the Terms and Conditions."
+            }
+        ],
+        "navigation": {"next": "Submit"}
     }
 ]

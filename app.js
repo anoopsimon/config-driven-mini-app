@@ -1,20 +1,66 @@
 document.addEventListener("DOMContentLoaded", function() {
-
-    var container = document.getElementById('appContainer');
-    var loader = document.getElementById('loader');
-    container.style.display = 'none';
-    loader.style.display = 'block';
-
     fetch('data.json')
     .then(response => response.json())
     .then(jsonData => {
-        setTimeout(() => {
-            loader.style.display = 'none';
-            container.style.display = 'block';
-            renderPage(jsonData[0]);
-        }, 1000); // 1000 milliseconds = 1 second
-
         var currentPageIndex = 0;
+
+        function createLabel(text) {
+            var label = document.createElement('label');
+            label.textContent = text;
+            label.style.fontWeight = 'bold';
+            return label;
+        }
+
+        function createElement(element) {
+            var wrapperDiv = document.createElement('div');
+            if (element.question) {
+                var questionLabel = createLabel(element.question);
+                wrapperDiv.appendChild(questionLabel);
+            }
+
+            var inputElement;
+            switch (element.type) {
+                case "text":
+                    inputElement = document.createElement('input');
+                    inputElement.type = "text";
+                    break;
+                case "checkbox":
+                    inputElement = document.createElement('input');
+                    inputElement.type = "checkbox";
+                    var checkboxLabel = document.createElement('label');
+                    checkboxLabel.appendChild(inputElement);
+                    checkboxLabel.appendChild(document.createTextNode(element.label || ''));
+                    wrapperDiv.appendChild(checkboxLabel);
+                    return wrapperDiv;
+                case "dropdown":
+                    inputElement = document.createElement('select');
+                    element.options.forEach(option => {
+                        var optionElement = document.createElement('option');
+                        optionElement.value = option;
+                        optionElement.text = option;
+                        inputElement.appendChild(optionElement);
+                    });
+                    break;
+                case "radio":
+                    element.options.forEach(option => {
+                        var radioInput = document.createElement('input');
+                        radioInput.type = "radio";
+                        radioInput.name = element.name;
+                        radioInput.value = option;
+                        var radioLabel = document.createElement('label');
+                        radioLabel.appendChild(radioInput);
+                        radioLabel.appendChild(document.createTextNode(option));
+                        wrapperDiv.appendChild(radioLabel);
+                    });
+                    return wrapperDiv;
+                // ... handle other types as needed ...
+            }
+
+            inputElement.name = element.name;
+            inputElement.className = 'form-control';
+            wrapperDiv.appendChild(inputElement);
+            return wrapperDiv;
+        }
 
         function renderPage(pageData) {
             var container = document.getElementById('appContainer');
@@ -23,67 +69,64 @@ document.addEventListener("DOMContentLoaded", function() {
             var form = document.createElement('div');
             form.className = 'form-group';
 
-            // Create elements based on pageData
             pageData.elements.forEach(element => {
                 var rowDiv = document.createElement('div');
                 rowDiv.className = 'row mb-3';
 
                 var inputDiv = document.createElement('div');
-                inputDiv.className = 'col-12 col-md-6'; // Adjust width on medium screens
+                inputDiv.className = 'col-12 col-md-6';
 
-                var inputElement = document.createElement('input');
-                inputElement.type = element.type;
-                inputElement.name = element.name;
-                inputElement.placeholder = element.name;
-                inputElement.className = 'form-control';
-                inputElement.required = element.validation === 'required';
-
+                var inputElement = createElement(element);
                 inputDiv.appendChild(inputElement);
                 rowDiv.appendChild(inputDiv);
-
-                if (element.customJs) {
-                    var script = document.createElement('script');
-                    script.src = element.customJs;
-                    rowDiv.appendChild(script);
-                }
 
                 form.appendChild(rowDiv);
             });
 
-            // Navigation button row
             var navRowDiv = document.createElement('div');
-            navRowDiv.className = 'row justify-content-end';
+            navRowDiv.className = 'row justify-content-between mt-4';
 
-            var navButtonDiv = document.createElement('div');
-            navButtonDiv.className = 'col-auto mt-2'; // Smaller column for the button
+            if (pageData.navigation.previous) {
+                var prevButtonDiv = document.createElement('div');
+                prevButtonDiv.className = 'col-auto';
 
-            var nextButton = document.createElement('button');
-            nextButton.textContent = pageData.navigation.next;
-            nextButton.className = 'btn btn-primary';
-            // Optional: Set a custom width if necessary
-            // nextButton.style.width = '150px'; // Example fixed width
+                var prevButton = document.createElement('button');
+                prevButton.textContent = pageData.navigation.previous;
+                prevButton.className = 'btn btn-secondary';
+                prevButton.addEventListener('click', function() {
+                    if (currentPageIndex > 0) {
+                        currentPageIndex--;
+                        renderPage(jsonData[currentPageIndex]);
+                    }
+                });
 
-            navButtonDiv.appendChild(nextButton);
-            navRowDiv.appendChild(navButtonDiv);
+                prevButtonDiv.appendChild(prevButton);
+                navRowDiv.appendChild(prevButtonDiv);
+            }
+
+            if (pageData.navigation.next) {
+                var nextButtonDiv = document.createElement('div');
+                nextButtonDiv.className = 'col-auto';
+
+                var nextButton = document.createElement('button');
+                nextButton.textContent = pageData.navigation.next;
+                nextButton.className = 'btn btn-primary';
+                nextButton.addEventListener('click', function() {
+                    if (currentPageIndex < jsonData.length - 1) {
+                        currentPageIndex++;
+                        renderPage(jsonData[currentPageIndex]);
+                    }
+                });
+
+                nextButtonDiv.appendChild(nextButton);
+                navRowDiv.appendChild(nextButtonDiv);
+            }
+
             form.appendChild(navRowDiv);
-
             container.appendChild(form);
-
-            nextButton.addEventListener('click', function() {
-                if (currentPageIndex < jsonData.length - 1) {
-                    currentPageIndex++;
-                    renderPage(jsonData[currentPageIndex]);
-                }
-            });
         }
 
-        // Initial render
         renderPage(jsonData[currentPageIndex]);
     })
-    .catch(error => {
-        console.error('Error loading JSON:', error);
-        // Hide loader and optionally show an error message
-        loader.style.display = 'none';
-        container.innerHTML = '<p>Error loading content.</p>';
-    });
+    .catch(error => console.error('Error loading JSON:', error));
 });
